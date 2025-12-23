@@ -1,5 +1,6 @@
 package co.clean_architecture.jpa.adapter;
 
+import co.clean_architecture.jpa.entity.CategoryEntity;
 import co.clean_architecture.jpa.entity.ProductEntity;
 import co.clean_architecture.jpa.repository.ProductJpaRepository;
 import co.clean_architecture.model.product.Product;
@@ -7,6 +8,7 @@ import co.clean_architecture.model.product.criteria.ProductCriteria;
 import co.clean_architecture.model.product.gateways.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -51,6 +53,12 @@ public class ProductRepositoryAdapter implements ProductRepository {
         productJpaRepository.deleteById(id);
     }
 
+    @Override
+    @Transactional
+    public void updateStatusProduct(Long id, String status) {
+        productJpaRepository.updateStatusProduct(id , status);
+    }
+
     private Product mapProductEntityToProduct(ProductEntity productEntity) {
         return Product.builder()
             .id(productEntity.getId())
@@ -59,6 +67,7 @@ public class ProductRepositoryAdapter implements ProductRepository {
             .price(productEntity.getPrice())
             .categoryId(productEntity.getCategory().getId())
             .status(productEntity.getStatus())
+            .createdAt(productEntity.getCreatedAt())
             .build();
     }
 
@@ -68,7 +77,9 @@ public class ProductRepositoryAdapter implements ProductRepository {
             .name(product.getName())
             .description(product.getDescription())
             .price(product.getPrice())
+            .category(new CategoryEntity(product.getCategoryId()))
             .status(product.getStatus())
+            .createdAt(product.getCreatedAt())
             .build();
     }
 }

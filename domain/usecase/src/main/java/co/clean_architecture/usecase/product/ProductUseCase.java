@@ -31,6 +31,7 @@ public class ProductUseCase {
     }
 
     public List<Product> getAllProductsByFilters(ProductCriteria productCriteria) {
+        productCriteria.setValuesIfNull();
         return productRepository.getProductsByFilters(productCriteria);
     }
 
@@ -40,6 +41,12 @@ public class ProductUseCase {
         validateStatus(product.getStatus());
         validateCategoryExists(product.getCategoryId());
         return productRepository.createProduct(product);
+    }
+
+    public void updateStatusProduct(Long id, String status) {
+        validateExistsProduct(id);
+        validateStatus(status);
+        productRepository.updateStatusProduct(id, status);
     }
 
     public void deleteProductById(Long id) {

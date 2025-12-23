@@ -20,14 +20,18 @@ public class ProductCriteria {
     private String status;
 
     public void setValuesIfNull() {
-        if(Objects.equals(this.name, "")) {
-            this.name = null;
+        if(Objects.equals(this.name, null)) {
+            this.name = "";
+        }
+
+        if(this.categoryIds == null) {
+            this.categoryIds = List.of();
         }
 
         this.appliesCategoryFilter = !this.categoryIds.isEmpty();
 
-        if(Objects.equals(this.status, "")) {
-            this.status = null;
+        if(Objects.equals(this.status, null)) {
+            this.status = "";
         }
 
         if(this.maxPrice == null) {

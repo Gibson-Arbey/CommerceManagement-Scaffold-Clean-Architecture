@@ -4,6 +4,7 @@ import co.clean_architecture.api.dto.ErrorResponse;
 import co.clean_architecture.model.category.exception.CategoryNotFoundException;
 import co.clean_architecture.model.product.exception.ProductNotFoundException;
 import co.clean_architecture.usecase.product.exception.StatusProductIsNotValidException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @RestControllerAdvice
 public class HandlerAdvice {
 
@@ -31,6 +33,7 @@ public class HandlerAdvice {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
+        log.error(ex.getMessage());
         return build(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", ex.getMessage());
     }
 

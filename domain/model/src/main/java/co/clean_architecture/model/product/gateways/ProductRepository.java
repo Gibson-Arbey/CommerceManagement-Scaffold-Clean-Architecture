@@ -14,4 +14,6 @@ public interface ProductRepository {
     List<Product> getProductsByFilters(ProductCriteria productCriteria);
 
     void deleteProductById(Long id);
+
+    void updateStatusProduct(Long id, String status);
 }

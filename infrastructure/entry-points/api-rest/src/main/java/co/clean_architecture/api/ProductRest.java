@@ -22,17 +22,17 @@ public class ProductRest {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(productUseCase.getProductById(id));
     }
 
     @GetMapping
     public ResponseEntity<List<Product>> getAllProductsByFilters(
-        @RequestParam(required = false) String name,
-        @RequestParam(required = false) List<Long> categoryIds,
-        @RequestParam(required = false) Double minPrice,
-        @RequestParam(required = false) Double maxPrice,
-        @RequestParam(required = false) String status
+        @RequestParam(name = "name", required = false) String name,
+        @RequestParam(name = "categoryIds", required = false) List<Long> categoryIds,
+        @RequestParam(name = "minPrice", required = false) Double minPrice,
+        @RequestParam(name = "maxPrice", required = false) Double maxPrice,
+        @RequestParam(name = "status", required = false) String status
     ) {
         ProductCriteria criteria = ProductCriteria.builder()
                 .name(name)
@@ -50,6 +50,12 @@ public class ProductRest {
     @PutMapping
     public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
         return ResponseEntity.ok(productUseCase.updateProduct(product));
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Product> updateStatusProduct(@PathVariable("id") Long id, @RequestBody String status) {
+        productUseCase.updateStatusProduct(id, status);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")

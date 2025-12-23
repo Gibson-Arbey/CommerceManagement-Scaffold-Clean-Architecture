@@ -2,6 +2,7 @@ package co.clean_architecture.jpa.repository;
 
 import co.clean_architecture.jpa.entity.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -11,11 +12,11 @@ public interface ProductJpaRepository extends JpaRepository<ProductEntity, Long>
 
     @Query("""
         SELECT p FROM ProductEntity p
-        WHERE (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')))
+        WHERE (:name = '' OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')))
         AND (:appliesCategoryFilter = false OR p.category.id IN :categoryIds)
         AND (:minPrice IS NULL OR p.price >= :minPrice)
         AND (:maxPrice IS NULL OR p.price <= :maxPrice)
-        AND (:status IS NULL OR p.status = :status)
+        AND (:status = '' OR p.status = :status)
         """)
     List<ProductEntity> findByFilters(
         @Param("name") String name,
@@ -26,5 +27,8 @@ public interface ProductJpaRepository extends JpaRepository<ProductEntity, Long>
         @Param("status") String status
     );
 
+    @Modifying
+    @Query("UPDATE ProductEntity p SET p.status = :status WHERE p.id = :id")
+    void updateStatusProduct(@Param("id") Long id, @Param("status") String status);
 
 }
