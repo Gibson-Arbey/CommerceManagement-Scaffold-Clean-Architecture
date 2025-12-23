@@ -19,7 +19,7 @@ public class ProductRepositoryAdapter implements ProductRepository {
     private final ProductJpaRepository productJpaRepository;
 
     @Override
-    public Product createProduct(Product product) {
+    public Product saveProduct(Product product) {
         return mapProductEntityToProduct(
             productJpaRepository.save(
                 mapProductToProductEntity(product)

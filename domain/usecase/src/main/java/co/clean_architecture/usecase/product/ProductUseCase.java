@@ -23,7 +23,7 @@ public class ProductUseCase {
         product.setCreatedAt(LocalDate.now());
         validateStatus(product.getStatus());
         validateCategoryExists(product.getCategoryId());
-        return productRepository.createProduct(product);
+        return productRepository.saveProduct(product);
     }
 
     public Product getProductById(Long id) {
@@ -40,7 +40,7 @@ public class ProductUseCase {
         product.setCreatedAt(existingProduct.getCreatedAt());
         validateStatus(product.getStatus());
         validateCategoryExists(product.getCategoryId());
-        return productRepository.createProduct(product);
+        return productRepository.saveProduct(product);
     }
 
     public void updateStatusProduct(Long id, String status) {

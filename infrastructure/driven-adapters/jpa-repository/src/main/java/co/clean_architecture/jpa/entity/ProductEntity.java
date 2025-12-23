@@ -37,4 +37,8 @@ public class ProductEntity {
 
     @Column(name = "prodr_createdat", nullable = false)
     private LocalDate createdAt;
+
+    public ProductEntity(Long id) {
+        this.id = id;
+    }
 }
