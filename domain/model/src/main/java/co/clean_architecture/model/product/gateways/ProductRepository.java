@@ -16,4 +16,6 @@ public interface ProductRepository {
     void deleteProductById(Long id);
 
     void updateStatusProduct(Long id, String status);
+
+    Boolean existsById(Long id);
 }

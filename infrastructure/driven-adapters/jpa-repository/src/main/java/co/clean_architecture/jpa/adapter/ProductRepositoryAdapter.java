@@ -59,6 +59,11 @@ public class ProductRepositoryAdapter implements ProductRepository {
         productJpaRepository.updateStatusProduct(id , status);
     }
 
+    @Override
+    public Boolean existsById(Long id) {
+        return productJpaRepository.existsById(id);
+    }
+
     private Product mapProductEntityToProduct(ProductEntity productEntity) {
         return Product.builder()
             .id(productEntity.getId())

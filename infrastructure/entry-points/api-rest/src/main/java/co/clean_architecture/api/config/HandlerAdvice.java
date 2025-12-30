@@ -2,6 +2,7 @@ package co.clean_architecture.api.config;
 
 import co.clean_architecture.api.dto.ErrorResponse;
 import co.clean_architecture.model.category.exception.CategoryNotFoundException;
+import co.clean_architecture.model.exception.DomainException;
 import co.clean_architecture.model.product.exception.ProductNotFoundException;
 import co.clean_architecture.usecase.product.exception.StatusProductIsNotValidException;
 import lombok.extern.slf4j.Slf4j;
@@ -16,19 +17,15 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class HandlerAdvice {
 
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleProductNotFound(ProductNotFoundException ex) {
-        return build(HttpStatus.NOT_FOUND, "PRODUCT_NOT_FOUND", ex.getMessage());
-    }
-
-    @ExceptionHandler(CategoryNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleCategoryNotFound(CategoryNotFoundException ex) {
-        return build(HttpStatus.NOT_FOUND, "CATEGORY_NOT_FOUND", ex.getMessage());
-    }
-
-    @ExceptionHandler(StatusProductIsNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidStatus(StatusProductIsNotValidException ex) {
-        return build(HttpStatus.BAD_REQUEST, "INVALID_PRODUCT_STATUS", ex.getMessage());
+    @ExceptionHandler(DomainException.class)
+    public ResponseEntity<ErrorResponse> handleProductNotFound(DomainException ex) {
+        return ResponseEntity.badRequest().body(
+            ErrorResponse.builder()
+                .code(ex.getCode())
+                .message(ex.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build()
+        );
     }
 
     @ExceptionHandler(Exception.class)
