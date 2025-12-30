@@ -51,6 +51,17 @@ public class OrderRepositoryAdapter implements OrderRepository {
         orderJpaRepository.deleteById(orderId);
     }
 
+    @Override
+    public Boolean existsOrderById(Long orderId) {
+        return orderJpaRepository.existsById(orderId);
+    }
+
+    @Override
+    @Transactional
+    public void updateOrderStatus(Long orderId, String status) {
+        orderJpaRepository.updateOrderStatus(orderId, status);
+    }
+
     private Order mapOrderEntityToOrder(OrderEntity entity) {
         return Order.builder()
                 .id(entity.getId())

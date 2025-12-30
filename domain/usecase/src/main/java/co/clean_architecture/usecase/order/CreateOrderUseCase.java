@@ -30,7 +30,7 @@ public class CreateOrderUseCase {
 
         Order newOrder = Order.builder()
             .customerId(order.getCustomerId())
-            .status(OrderStatus.CREATED.name())
+            .status(StatusOrderEnum.CREATED.name())
             .createdAt(LocalDate.now())
             .totalAmount(total)
             .orderItems(order.getOrderItems())
@@ -47,7 +47,7 @@ public class CreateOrderUseCase {
 
     private void validateProductsExist(List<OrderItem> items) {
         for (OrderItem item : items) {
-            if (!productRepository.existsById(item.getProductId())) {
+            if (Boolean.FALSE.equals(productRepository.existsById(item.getProductId()))) {
                 throw new ProductNotFoundException("Product with ID " + item.getProductId() + " does not exist.");
             }
         }

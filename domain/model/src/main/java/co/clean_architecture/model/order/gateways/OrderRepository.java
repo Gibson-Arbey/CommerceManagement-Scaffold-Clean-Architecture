@@ -13,4 +13,8 @@ public interface OrderRepository {
     List<Order> getOrdersByCustomerId(Long customerId);
 
     void deleteOrderById(Long orderId);
+
+    Boolean existsOrderById(Long orderId);
+
+    void updateOrderStatus(Long orderId, String status);
 }

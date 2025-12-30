@@ -54,4 +54,10 @@ public class OrderRest {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateOrderStatus(@PathVariable("id") Long id, @RequestParam("status") String status) {
+        orderUseCase.updateOrderStatus(id, status);
+        return ResponseEntity.noContent().build();
+    }
+
 }
